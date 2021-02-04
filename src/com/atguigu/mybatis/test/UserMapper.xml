@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    namespace是名称空间，这里的取值必须Mapper接口的全类名
+-->
+<mapper namespace="com.atguigu.mybatis.test.UserMapper">
+
+    <!--
+        public User queryUserById(Integer id);
+
+        select标签配置select语句
+            id 值必须是接口的方法名
+            parameterType 表示参数类型(int 表示Integer类型)
+            resultType 属性设置查询回来的每一行转换的具体类型
+
+        #{xxx} 表示占位符 ?
+    -->
+    <select id="queryUserById" parameterType="int" resultType="User">
+        select `id`,`last_name` lastName,`sex` from t_user where id = #{id}
+    </select>
+
+    <select id="queryUsers" resultType="com.atguigu.mybatis.test.User">
+        select `id`,`last_name` lastName,`sex` from t_user
+    </select>
+
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
+
+<selectKey keyProperty="id" resultType="int" order="AFTER">
+select last_insert_id()
+</selectKey>
+        insert into t_user(`last_name`,`sex`) values(#{lastName},#{sex})
+
+    </insert>
+    <select id="queryUsersForMap" resultType="com.atguigu.mybatis.test.User">
+            select `id`,`last_name` lastName,`sex` from t_user
+    </select>
+
+    <delete id="deleteUserById" >
+        delete from t_user where id = #{id}
+    </delete>
+
+    <update id="updateUser" >
+        update t_user set `last_name`=#{lastName},`sex`=#{sex} where `id`=#{id}
+    </update>
+
+</mapper>
